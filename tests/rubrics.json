@@ -6,12 +6,12 @@
     {
       "name": "Configuration & Arguments",
       "description": "Model registry, layer selection, and hyperparameter management match the paper's specifications.",
-      "weight": 0.15,
+      "weight": 0.05,
       "children": [
         {
           "name": "Model Registry",
           "description": "Registry contains all 4 target LLMs (Llama-3.2-3B, Llama-3.1-8B, Qwen-2.5-7B, Qwen-2.5-14B) with correct HuggingFace paths.",
-          "weight": 1.0,
+          "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
             "command": "python -m pytest tests/test_config.py::TestModelRegistry -v --tb=short"
@@ -20,7 +20,7 @@
         {
           "name": "Layer Registry",
           "description": "Residual-stream layer numbers match the paper (layer 3 for all models, as specified in §3.1).",
-          "weight": 1.0,
+          "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
             "command": "python -m pytest tests/test_config.py::TestLayerRegistry -v --tb=short"
@@ -29,7 +29,7 @@
         {
           "name": "Reasoning Target Map",
           "description": "GPT-5-Nano and GPT-5-Mini are mapped correctly for the reasoning model attack setting.",
-          "weight": 0.5,
+          "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
             "command": "python -m pytest tests/test_config.py::TestReasoningTargetMap -v --tb=short"
@@ -38,7 +38,7 @@
         {
           "name": "Hyperparameter Defaults",
           "description": "RealistaArgs defaults match the paper: seed=18, trial_num=10, pld_iterations=50, attack_budget=1.0, step_size=0.05, temperature_decay=0.95, stage1_top_n=5.",
-          "weight": 1.0,
+          "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
             "command": "python -m pytest tests/test_config.py::TestRealistaArgs -v --tb=short"
@@ -47,7 +47,7 @@
         {
           "name": "Environment Loading",
           "description": "Config loads environment variables via python-dotenv so API keys are never hard-coded.",
-          "weight": 0.5,
+          "weight": 0.2,
           "grader_spec": {
             "type": "shell_exit_code",
             "command": "python -c \"from src.config import OPENAI_API_KEY; assert isinstance(OPENAI_API_KEY, str)\""
@@ -58,12 +58,12 @@
     {
       "name": "QA Utilities",
       "description": "Prompt construction, token-ID mapping, and probability extraction for MMLU-style MCQA evaluation.",
-      "weight": 0.15,
+      "weight": 0.05,
       "children": [
         {
           "name": "Token ID Mapping",
           "description": "All 4 models have A/B/C/D token-ID mappings with positive integer IDs matching each model's tokenizer vocabulary.",
-          "weight": 1.0,
+          "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
             "command": "python -m pytest tests/test_qa_utils.py::TestTokenIDMapping -v --tb=short"
@@ -72,7 +72,7 @@
         {
           "name": "MCQA Prompt Template",
           "description": "Prompt template contains the subject name, all 4 answer choices (A-D), and ends with 'Answer:' to force a letter response.",
-          "weight": 1.0,
+          "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
             "command": "python -m pytest tests/test_qa_utils.py::TestPromptConstruction -v --tb=short"
@@ -81,7 +81,7 @@
         {
           "name": "Probability Formatting",
           "description": "format_probs correctly renders a 4-way probability distribution as 'A: xx.xx%  B: xx.xx% ...'",
-          "weight": 0.5,
+          "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
             "command": "python -m pytest tests/test_qa_utils.py::TestFormatProbs -v --tb=short"
@@ -90,7 +90,7 @@
         {
           "name": "get_probs Function Exists",
           "description": "get_probs extracts P(A), P(B), P(C), P(D) from model logits via softmax over 4 token IDs.",
-          "weight": 1.0,
+          "weight": 0.2,
           "grader_spec": {
             "type": "shell_exit_code",
             "command": "python -c \"from src.qa_utils import get_probs, get_probs_batch; import inspect; sig = inspect.signature(get_probs); assert 'args' in sig.parameters and 'outputs' in sig.parameters\""
@@ -99,7 +99,7 @@
         {
           "name": "Full Input Embeddings Assembly",
           "description": "get_full_input_embeds concatenates [prefix_embed | question_latent | suffix_embed] into a single tensor for the model's forward pass.",
-          "weight": 1.0,
+          "weight": 0.2,
           "grader_spec": {
             "type": "shell_exit_code",
             "command": "python -c \"from src.qa_utils import get_full_input_embeds; import inspect; sig = inspect.signature(get_full_input_embeds); params = list(sig.parameters.keys()); assert 'prefix_text' in params and 'question_latent' in params and 'suffix_text' in params\""
@@ -110,17 +110,17 @@
     {
       "name": "Core Attack Algorithm",
       "description": "Implementation of the two-stage REALISTA attack: simplex projection, Gumbel-Softmax decoding, PLD optimization, and LLM judges.",
-      "weight": 0.30,
+      "weight": 0.70,
       "children": [
         {
-          "name": "Simplex Projection",
+          "name": "Simplex Projection (HEADLINE)",
           "description": "O(n log n) projection onto scaled simplex Δ_ε = {δ ≥ 0 : ‖δ‖₁ ≤ ε} using Duchi et al. (2008) algorithm.",
-          "weight": 1.5,
+          "weight": 4.0,
           "children": [
             {
               "name": "Non-negativity Constraint",
               "description": "All projected values are ≥ 0, preventing concept direction inversions that produce gibberish.",
-              "weight": 1.0,
+              "weight": 2.0,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_non_negativity -v --tb=short"
@@ -129,7 +129,7 @@
             {
               "name": "Budget Constraint",
               "description": "ℓ₁ norm of projected vector is ≤ ε, bounding total edit strength.",
-              "weight": 1.0,
+              "weight": 2.0,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_budget_exact -v --tb=short"
@@ -138,7 +138,7 @@
             {
               "name": "Feasible Passthrough",
               "description": "Vectors already inside Δ_ε are returned unchanged (idempotent projection).",
-              "weight": 1.0,
+              "weight": 2.0,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_feasible_passthrough -v --tb=short"
@@ -147,7 +147,7 @@
             {
               "name": "Negative Clipping",
               "description": "All-negative input maps to the zero vector (no concept activated).",
-              "weight": 0.5,
+              "weight": 1.0,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_all_negative_gives_zero -v --tb=short"
@@ -156,7 +156,7 @@
             {
               "name": "Sparsity Induction",
               "description": "ℓ₁ projection naturally produces sparse δ vectors (most entries zero), ensuring only a few concepts are activated.",
-              "weight": 1.0,
+              "weight": 2.0,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_sparsity_induced -v --tb=short"
@@ -165,7 +165,7 @@
             {
               "name": "Variable Epsilon",
               "description": "Projection respects different attack budgets ε (not just ε=1).",
-              "weight": 0.5,
+              "weight": 1.0,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_different_epsilon -v --tb=short"
@@ -174,14 +174,48 @@
           ]
         },
         {
+          "name": "Optimization Dynamics & Math (HEADLINE)",
+          "description": "Algorithmic execution and math verification of Gumbel-Softmax sampling, log-prob gradients, and PLD convergence.",
+          "weight": 4.0,
+          "children": [
+            {
+              "name": "Gumbel-Softmax Reparameterization",
+              "description": "Verifies Gumbel-Softmax reparameterized sampling is deterministic and reproducible under fixed seeds.",
+              "weight": 2.0,
+              "grader_spec": {
+                "type": "unit_test",
+                "command": "python -m pytest tests/test_core.py::TestBehavioralGrader::test_gumbel_softmax_deterministic_behavior -v --tb=short"
+              }
+            },
+            {
+              "name": "PLD Convergence Dynamics",
+              "description": "Verifies that a PLD step successfully minimizes a toy loss objective while respecting simplex constraints.",
+              "weight": 3.0,
+              "grader_spec": {
+                "type": "unit_test",
+                "command": "python -m pytest tests/test_core.py::TestBehavioralGrader::test_pld_convergence_toy_objective -v --tb=short"
+              }
+            },
+            {
+              "name": "Log-Probability Gradients",
+              "description": "Verifies log-probability calculations and gradient propagation direction for target choices.",
+              "weight": 3.0,
+              "grader_spec": {
+                "type": "unit_test",
+                "command": "python -m pytest tests/test_core.py::TestBehavioralGrader::test_objective_function_math -v --tb=short"
+              }
+            }
+          ]
+        },
+        {
           "name": "Latent Reconstruction (Decoder ψ)",
           "description": "Gumbel-Softmax autoregressive decoder that inverts latent → text while keeping gradients alive.",
-          "weight": 1.0,
+          "weight": 0.5,
           "children": [
             {
               "name": "Decoder Function Signature",
               "description": "reconstruct_from_latent accepts (model, tokenizer, latent, prompt_len, seed) and returns (embeddings, text, terminated_flag).",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_reconstruct_from_latent_signature -v --tb=short"
@@ -190,7 +224,7 @@
             {
               "name": "Objective Function Signature",
               "description": "obj_fun computes log P(target_choice | embeddings) with gradient attached.",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_obj_fun_signature -v --tb=short"
@@ -201,12 +235,12 @@
         {
           "name": "LLM Judges",
           "description": "Hallucination scoring (1-5) and semantic equivalence checking via prompted LLM judges.",
-          "weight": 1.0,
+          "weight": 0.5,
           "children": [
             {
               "name": "Hallucination Judge Interface",
               "description": "hallucination_judge_score accepts (query, response, ground_truth, evaluator) and returns an integer 1-5.",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_hallucination_judge_signature -v --tb=short"
@@ -215,7 +249,7 @@
             {
               "name": "Feasibility Check Interface",
               "description": "feasibility_check accepts (query_x, query_x0, choices, subject, gt_idx, evaluator) and returns a boolean.",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_feasibility_check_signature -v --tb=short"
@@ -226,12 +260,12 @@
         {
           "name": "Pipeline Functions",
           "description": "Stage 1 initialization, Stage 2 PLD, and the full attack orchestrator.",
-          "weight": 1.0,
+          "weight": 0.5,
           "children": [
             {
               "name": "Stage 1 Function",
               "description": "stage1_optimization tries each concept direction individually and returns the top-N candidates.",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_stage1_optimization_signature -v --tb=short"
@@ -240,7 +274,7 @@
             {
               "name": "PLD Function (MCQA)",
               "description": "PLD implements Projected Langevin Dynamics with gradient via Gumbel-Softmax for the MCQA setting.",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_pld_signature -v --tb=short"
@@ -249,7 +283,7 @@
             {
               "name": "PLD Function (Reasoning)",
               "description": "PLD_reasoning_model uses surrogate gradients for the free-form response setting with API-only reasoning models.",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_pld_reasoning_signature -v --tb=short"
@@ -258,7 +292,7 @@
             {
               "name": "Attack Orchestrator",
               "description": "run_realista_attack coordinates Stage 1 → Stage 2 multi-trial → aggregation → success determination.",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_run_realista_attack_signature -v --tb=short"
@@ -271,17 +305,17 @@
     {
       "name": "Dictionary System",
       "description": "Input-dependent edit dictionary: loading pre-computed dictionaries and building from scratch via concept selection.",
-      "weight": 0.15,
+      "weight": 0.05,
       "children": [
         {
           "name": "Dictionary Loading",
           "description": "Loading pre-computed rephrasing and latent direction dictionaries.",
-          "weight": 1.0,
+          "weight": 0.5,
           "children": [
             {
               "name": "Rephrasing Loader",
               "description": "load_rephrasing_prompts(subject) loads JSON files mapping question indices to concept-based rephrasings.",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_utils.py::TestDictionaryUtilsSignatures::test_load_rephrasing_prompts_signature -v --tb=short"
@@ -290,7 +324,7 @@
             {
               "name": "Latent Dict Loader",
               "description": "load_latent_dict(model_type, subject) loads pickled or zstd-compressed latent direction tensors.",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_utils.py::TestDictionaryUtilsSignatures::test_load_latent_dict_signature -v --tb=short"
@@ -299,7 +333,7 @@
             {
               "name": "Latent Extraction (Encoder φ)",
               "description": "get_original_latent extracts z₀ from the chosen residual-stream layer via output_hidden_states=True.",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_utils.py::TestDictionaryUtilsSignatures::test_get_original_latent_signature -v --tb=short"
@@ -308,7 +342,7 @@
           ]
         },
         {
-          "name": "Dictionary Construction",
+          "name": "Dictionary Construction (HEADLINE)",
           "description": "Building dictionaries from scratch using WordNet concepts, embedding similarity, and LLM-based rephrasings.",
           "weight": 1.0,
           "children": [
@@ -324,7 +358,7 @@
             {
               "name": "Concept Pool Determinism",
               "description": "Same seed produces same concept subsample for reproducible dictionary construction.",
-              "weight": 0.5,
+              "weight": 1.0,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_utils.py::TestDictConstructionSignatures::test_wordnet_concepts_deterministic -v --tb=short"
@@ -333,7 +367,7 @@
             {
               "name": "Concept Selection Algorithm",
               "description": "select_concepts implements greedy diverse selection balancing relevance, editability, and diversity.",
-              "weight": 1.0,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_utils.py::TestDictConstructionSignatures::test_select_concepts_signature -v --tb=short"
@@ -342,7 +376,7 @@
             {
               "name": "Editability Prompt",
               "description": "EDITABILITY_INSTRUCTION contains the full 1-5 scoring rubric for judging concept editability.",
-              "weight": 0.5,
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_utils.py::TestDictConstructionSignatures::test_editability_instruction_exists -v --tb=short"
@@ -355,10 +389,10 @@
     {
       "name": "Reproducibility & Model Utils",
       "description": "Seed management, model loading, and OpenAI API wrapper for deterministic and robust execution.",
-      "weight": 0.10,
+      "weight": 0.05,
       "children": [
         {
-          "name": "Seed Reproducibility",
+          "name": "Seed Reproducibility (HEADLINE)",
           "description": "set_seed fixes random, numpy, and torch RNGs so the same seed always produces the same attack.",
           "weight": 1.0,
           "children": [
@@ -383,7 +417,7 @@
             {
               "name": "Different Seeds Diverge",
               "description": "Different seeds produce different random outputs (not a trivial constant).",
-              "weight": 0.5,
+              "weight": 1.0,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_utils.py::TestSeedReproducibility::test_different_seeds_different_output -v --tb=short"
@@ -394,12 +428,12 @@
         {
           "name": "Model Utils Structure",
           "description": "GPT wrapper class and model loading function exist with expected interfaces.",
-          "weight": 1.0,
+          "weight": 0.5,
           "children": [
             {
               "name": "GPT Wrapper Class",
-              "description": "GPT class has a .generate() method and configurable retry count (≥3).",
-              "weight": 1.0,
+              "description": "GPT class has a .generate() method and configurable retry count (>=3).",
+              "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
                 "command": "python -m pytest tests/test_utils.py::TestModelUtilsStructure -v --tb=short"
@@ -412,12 +446,12 @@
     {
       "name": "Packaging & Deployment",
       "description": "Project is properly packaged for reproducible installation and containerized execution.",
-      "weight": 0.15,
+      "weight": 0.10,
       "children": [
         {
           "name": "Requirements File",
           "description": "requirements.txt lists all Python dependencies needed for the attack pipeline.",
-          "weight": 0.5,
+          "weight": 0.2,
           "grader_spec": {
             "type": "shell_exit_code",
             "command": "test -f requirements.txt && grep -q 'torch' requirements.txt && grep -q 'transformers' requirements.txt && grep -q 'openai' requirements.txt"
@@ -426,7 +460,7 @@
         {
           "name": "pyproject.toml Valid",
           "description": "pyproject.toml is valid TOML with project name, version, and dependencies.",
-          "weight": 1.0,
+          "weight": 0.2,
           "grader_spec": {
             "type": "shell_exit_code",
             "command": "python -c \"import tomllib; d=tomllib.load(open('pyproject.toml','rb')); assert d['project']['name']=='realista'; assert len(d['project']['dependencies'])>=10\""
@@ -435,16 +469,16 @@
         {
           "name": "Dockerfile Exists",
           "description": "Dockerfile uses a CUDA-enabled base image with ENTRYPOINT set to run_demo.py.",
-          "weight": 1.0,
+          "weight": 0.2,
           "grader_spec": {
             "type": "shell_exit_code",
-            "command": "test -f Dockerfile && grep -q 'pytorch' Dockerfile && grep -q 'ENTRYPOINT' Dockerfile && grep -q 'run_demo.py' Dockerfile"
+            "command": "test -f environment/Dockerfile && grep -q 'pytorch' environment/Dockerfile && grep -q 'WORKDIR' environment/Dockerfile"
           }
         },
         {
           "name": "Docker Compose",
           "description": "docker-compose.yml configures GPU access, shared memory, and HuggingFace cache volume.",
-          "weight": 0.5,
+          "weight": 0.2,
           "grader_spec": {
             "type": "shell_exit_code",
             "command": "test -f docker-compose.yml && grep -q 'nvidia' docker-compose.yml && grep -q 'shm_size' docker-compose.yml"
@@ -453,7 +487,7 @@
         {
           "name": "All Imports Clean",
           "description": "All source modules import without errors (no missing dependencies or circular imports).",
-          "weight": 1.0,
+          "weight": 0.2,
           "grader_spec": {
             "type": "shell_exit_code",
             "command": "python -c \"from src.config import *; from src.arguments import *; from src.utils import *; from src.model_utils import GPT; from src.qa_utils import *; from src.dictionary_utils import *; from src.realista import *; from src.optional_dict_construction.dict_construction_utils import *; print('OK')\""
@@ -462,7 +496,7 @@
         {
           "name": "CLI Help Renders",
           "description": "run_demo.py --help exits cleanly with usage information for all 15 hyperparameters.",
-          "weight": 0.5,
+          "weight": 0.2,
           "grader_spec": {
             "type": "shell_exit_code",
             "command": "python run_demo.py --help 2>&1 | grep -q 'model_type' && python run_demo.py --help 2>&1 | grep -q 'attack_budget'"
