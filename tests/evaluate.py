@@ -2,6 +2,14 @@ import os
 import sys
 import pytest
 
+# Ensure parent directory is in path so we can import test modules
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import tests.test_config
+import tests.test_core
+import tests.test_qa_utils
+import tests.test_utils
+
+
 class RewardCollector:
     """Pytest plugin to count passed and failed tests programmatically."""
     def __init__(self):
