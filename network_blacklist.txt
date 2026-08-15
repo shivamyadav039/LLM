@@ -1,0 +1,23 @@
+# Network blacklist to restrict access to original paper resources during agent execution.
+# This ensures that the agent replicates the paper from local resources only.
+
+# arXiv paper page, PDF, and e-print access
+arxiv.org/abs/2605.12813
+arxiv.org/pdf/2605.12813
+arxiv.org/pdf/2605.12813.pdf
+arxiv.org/e-print/2605.12813
+export.arxiv.org/abs/2605.12813
+export.arxiv.org/pdf/2605.12813
+export.arxiv.org/pdf/2605.12813.pdf
+https://arxiv.org/abs/2605.12813
+https://arxiv.org/pdf/2605.12813
+https://arxiv.org/pdf/2605.12813.pdf
+https://arxiv.org/e-print/2605.12813
+
+# Official author code repository
+github.com/buyun-liang/realista
+github.com/Buyun-Liang/REALISTA
+https://github.com/buyun-liang/realista
+https://github.com/Buyun-Liang/REALISTA
+https://github.com/Buyun-Liang/REALISTA.git
+http://github.com/buyun-liang/realista
