@@ -35,6 +35,8 @@ web_search = true
 [metadata.network]
 allowed_domains = ["*.huggingface.co", "*.openai.com", "arxiv.org", "github.com", "pypi.org"]
 enabled = true
+policy = "restricted"
+blacklist_file = "network_blacklist.txt"
 
 [environment]
 docker_image = "realista-env"
