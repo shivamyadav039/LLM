@@ -19,16 +19,22 @@ difficulty_explanation = "Requires implementing a latent space adversarial attac
 solution_explanation = "The reference solver loads the model, constructs the latent concept direction dictionary, executes Stage 1 single-concept search to initialize the best candidates, and runs Stage 2 PLD to optimize the edit weights delta while enforcing the simplex constraint and semantic safeguards."
 
 [metadata.runtime_limits]
-# Standard agent execution constraints
 timeout_seconds = 10800
+memory_mb = 16384
+storage_mb = 20480
+gpus = 1
+preferred_gpu_type = "l4"
+wall_time_sec = 10800
 
 [metadata.tools]
-# Enabled tools inside the task environment
 allowed_tools = ["bash", "python", "git"]
+shell = true
+file_io = true
+web_search = true
 
 [metadata.network]
-# Allowed network hosts or domains for the container
 allowed_domains = ["*.huggingface.co", "*.openai.com", "arxiv.org", "github.com", "pypi.org"]
+enabled = true
 
 [environment]
 docker_image = "realista-env"
