@@ -10,23 +10,23 @@ RUN apt-get update && apt-get install -y git wget curl && rm -rf /var/lib/apt/li
 
 # Install python dependencies required by REALISTA (pinned with == for integrity)
 RUN pip install --no-cache-dir \
-    transformers==4.40.0 \
-    sentence-transformers==2.7.0 \
-    datasets==2.19.0 \
+    transformers==4.43.3 \
+    sentence-transformers==3.0.1 \
+    datasets==2.20.0 \
     numpy==1.26.4 \
-    tqdm==4.66.2 \
+    tqdm==4.66.4 \
     nltk==3.8.1 \
-    openai==1.25.0 \
+    openai==1.37.1 \
     python-dotenv==1.0.1 \
     zstandard==0.22.0 \
-    accelerate==0.29.3 \
-    pypdf==4.2.0
+    accelerate==0.33.0 \
+    pypdf==4.3.1
 
 # Pre-download NLTK data (needed for WordNet adjective concept pool extraction)
 RUN python -c "import nltk; nltk.download('wordnet', quiet=True); nltk.download('omw-1.4', quiet=True)"
 
-# Stage environment/paper/ into /workspace/paper/ so the runtime paper mirror is available
-COPY environment/paper/ /workspace/paper/
+# Stage paper/ into /workspace/paper/ (works in both root and environment/ build contexts)
+COPY paper/ /workspace/paper/
 
 # Set up working directory inside the container (standard SWE/Harbor workspaces mount here)
 WORKDIR /workspace
