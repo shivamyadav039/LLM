@@ -2,12 +2,22 @@ import os
 import sys
 import pytest
 
-# Ensure parent directory is in path so we can import test modules
+# Ensure parent directory and tests directory are in path so we can import test modules in any way
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(1, os.path.dirname(os.path.abspath(__file__)))
+
+# Import under tests package namespace
 import tests.test_config
 import tests.test_core
 import tests.test_qa_utils
 import tests.test_utils
+
+# Import under local module namespace
+import test_config
+import test_core
+import test_qa_utils
+import test_utils
+
 
 
 class RewardCollector:

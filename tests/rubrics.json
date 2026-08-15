@@ -14,7 +14,7 @@
           "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
-            "command": "python -m pytest tests/test_config.py::TestModelRegistry -v --tb=short"
+            "command": "python -m pytest tests/test_config.py -k TestModelRegistry -v --tb=short"
           }
         },
         {
@@ -23,7 +23,7 @@
           "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
-            "command": "python -m pytest tests/test_config.py::TestLayerRegistry -v --tb=short"
+            "command": "python -m pytest tests/test_config.py -k TestLayerRegistry -v --tb=short"
           }
         },
         {
@@ -32,7 +32,7 @@
           "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
-            "command": "python -m pytest tests/test_config.py::TestReasoningTargetMap -v --tb=short"
+            "command": "python -m pytest tests/test_config.py -k TestReasoningTargetMap -v --tb=short"
           }
         },
         {
@@ -41,7 +41,7 @@
           "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
-            "command": "python -m pytest tests/test_config.py::TestRealistaArgs -v --tb=short"
+            "command": "python -m pytest tests/test_config.py -k TestRealistaArgs -v --tb=short"
           }
         },
         {
@@ -66,7 +66,7 @@
           "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
-            "command": "python -m pytest tests/test_qa_utils.py::TestTokenIDMapping -v --tb=short"
+            "command": "python -m pytest tests/test_qa_utils.py -k TestTokenIDMapping -v --tb=short"
           }
         },
         {
@@ -75,7 +75,7 @@
           "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
-            "command": "python -m pytest tests/test_qa_utils.py::TestPromptConstruction -v --tb=short"
+            "command": "python -m pytest tests/test_qa_utils.py -k TestPromptConstruction -v --tb=short"
           }
         },
         {
@@ -84,7 +84,7 @@
           "weight": 0.2,
           "grader_spec": {
             "type": "unit_test",
-            "command": "python -m pytest tests/test_qa_utils.py::TestFormatProbs -v --tb=short"
+            "command": "python -m pytest tests/test_qa_utils.py -k TestFormatProbs -v --tb=short"
           }
         },
         {
@@ -123,7 +123,7 @@
               "weight": 2.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_non_negativity -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_non_negativity -v --tb=short"
               }
             },
             {
@@ -132,7 +132,7 @@
               "weight": 2.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_budget_exact -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_budget_exact -v --tb=short"
               }
             },
             {
@@ -141,7 +141,7 @@
               "weight": 2.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_feasible_passthrough -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_feasible_passthrough -v --tb=short"
               }
             },
             {
@@ -150,7 +150,7 @@
               "weight": 1.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_all_negative_gives_zero -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_all_negative_gives_zero -v --tb=short"
               }
             },
             {
@@ -159,7 +159,7 @@
               "weight": 2.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_sparsity_induced -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_sparsity_induced -v --tb=short"
               }
             },
             {
@@ -168,7 +168,7 @@
               "weight": 1.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestSimplexProjectionCorrectness::test_different_epsilon -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_different_epsilon -v --tb=short"
               }
             }
           ]
@@ -184,7 +184,7 @@
               "weight": 2.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestBehavioralGrader::test_gumbel_softmax_deterministic_behavior -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_gumbel_softmax_deterministic_behavior -v --tb=short"
               }
             },
             {
@@ -193,7 +193,7 @@
               "weight": 3.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestBehavioralGrader::test_pld_convergence_toy_objective -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_pld_convergence_toy_objective -v --tb=short"
               }
             },
             {
@@ -202,7 +202,7 @@
               "weight": 3.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestBehavioralGrader::test_objective_function_math -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_objective_function_math -v --tb=short"
               }
             }
           ]
@@ -218,7 +218,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_reconstruct_from_latent_signature -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_reconstruct_from_latent_signature -v --tb=short"
               }
             },
             {
@@ -227,7 +227,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_obj_fun_signature -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_obj_fun_signature -v --tb=short"
               }
             }
           ]
@@ -243,7 +243,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_hallucination_judge_signature -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_hallucination_judge_signature -v --tb=short"
               }
             },
             {
@@ -252,7 +252,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_feasibility_check_signature -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_feasibility_check_signature -v --tb=short"
               }
             }
           ]
@@ -268,7 +268,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_stage1_optimization_signature -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_stage1_optimization_signature -v --tb=short"
               }
             },
             {
@@ -277,7 +277,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_pld_signature -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_pld_signature -v --tb=short"
               }
             },
             {
@@ -286,7 +286,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_pld_reasoning_signature -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_pld_reasoning_signature -v --tb=short"
               }
             },
             {
@@ -295,7 +295,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_core.py::TestFunctionSignatures::test_run_realista_attack_signature -v --tb=short"
+                "command": "python -m pytest tests/test_core.py -k test_run_realista_attack_signature -v --tb=short"
               }
             }
           ]
@@ -318,7 +318,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_utils.py::TestDictionaryUtilsSignatures::test_load_rephrasing_prompts_signature -v --tb=short"
+                "command": "python -m pytest tests/test_utils.py -k TestDictionaryUtilsSignatures -v --tb=short"
               }
             },
             {
@@ -327,7 +327,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_utils.py::TestDictionaryUtilsSignatures::test_load_latent_dict_signature -v --tb=short"
+                "command": "python -m pytest tests/test_utils.py -k TestDictionaryUtilsSignatures -v --tb=short"
               }
             },
             {
@@ -336,7 +336,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_utils.py::TestDictionaryUtilsSignatures::test_get_original_latent_signature -v --tb=short"
+                "command": "python -m pytest tests/test_utils.py -k TestDictionaryUtilsSignatures -v --tb=short"
               }
             }
           ]
@@ -352,7 +352,7 @@
               "weight": 1.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_utils.py::TestDictConstructionSignatures::test_wordnet_concepts_returns_list -v --tb=short"
+                "command": "python -m pytest tests/test_utils.py -k test_wordnet_concepts_returns_list -v --tb=short"
               }
             },
             {
@@ -361,7 +361,7 @@
               "weight": 1.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_utils.py::TestDictConstructionSignatures::test_wordnet_concepts_deterministic -v --tb=short"
+                "command": "python -m pytest tests/test_utils.py -k test_wordnet_concepts_deterministic -v --tb=short"
               }
             },
             {
@@ -370,7 +370,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_utils.py::TestDictConstructionSignatures::test_select_concepts_signature -v --tb=short"
+                "command": "python -m pytest tests/test_utils.py -k test_select_concepts_signature -v --tb=short"
               }
             },
             {
@@ -379,7 +379,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_utils.py::TestDictConstructionSignatures::test_editability_instruction_exists -v --tb=short"
+                "command": "python -m pytest tests/test_utils.py -k test_editability_instruction_exists -v --tb=short"
               }
             }
           ]
@@ -402,7 +402,7 @@
               "weight": 1.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_utils.py::TestSeedReproducibility::test_seed_produces_same_torch_random -v --tb=short"
+                "command": "python -m pytest tests/test_utils.py -k test_seed_produces_same_torch_random -v --tb=short"
               }
             },
             {
@@ -411,7 +411,7 @@
               "weight": 1.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_utils.py::TestSeedReproducibility::test_seed_produces_same_numpy_random -v --tb=short"
+                "command": "python -m pytest tests/test_utils.py -k test_seed_produces_same_numpy_random -v --tb=short"
               }
             },
             {
@@ -420,7 +420,7 @@
               "weight": 1.0,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_utils.py::TestSeedReproducibility::test_different_seeds_different_output -v --tb=short"
+                "command": "python -m pytest tests/test_utils.py -k test_different_seeds_different_output -v --tb=short"
               }
             }
           ]
@@ -436,7 +436,7 @@
               "weight": 0.2,
               "grader_spec": {
                 "type": "unit_test",
-                "command": "python -m pytest tests/test_utils.py::TestModelUtilsStructure -v --tb=short"
+                "command": "python -m pytest tests/test_utils.py -k TestModelUtilsStructure -v --tb=short"
               }
             }
           ]
