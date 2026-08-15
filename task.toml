@@ -7,7 +7,6 @@ description = "Replicate REALISTA (ICML 2026): Realistic Latent Adversarial Atta
 domain = "engineering-sciences"
 subdomain = "machine-learning"
 difficulty = "hard"
-author_name = "Shivam Yadav"
 difficulty_explanation = "Requires implementing a latent space adversarial attack framework containing Gumbel-Softmax autoregressive decoding, simplex projection, and Projected Langevin Dynamics (PLD)."
 solution_explanation = "The reference solver loads the model, constructs the latent concept direction dictionary, executes Stage 1 single-concept search to initialize the best candidates, and runs Stage 2 PLD to optimize the edit weights delta while enforcing the simplex constraint and semantic safeguards."
 

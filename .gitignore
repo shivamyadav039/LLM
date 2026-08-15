@@ -39,3 +39,7 @@ data/rephrasing_prompts/
 # Local logs
 logs/
 
+# Archive files
+*.zip
+
+
