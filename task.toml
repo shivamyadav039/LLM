@@ -1,20 +1,44 @@
 [task]
-name = "realista-replication"
+name = "paper-replication/realista-replication"
 version = "1.0.0"
 description = "Replicate REALISTA (ICML 2026): Realistic Latent Adversarial Attacks that Elicit LLM Hallucinations"
+keywords = ["adversarial-attacks", "hallucination", "llm", "latent-space", "projected-langevin-dynamics"]
 
 [metadata]
+task_id = "realista-replication"
+description = "Replicate REALISTA (ICML 2026): Realistic Latent Adversarial Attacks that Elicit LLM Hallucinations"
+arxiv_id = "2605.12813"
+paper_title = "REALISTA: Realistic Latent Adversarial Attacks that Elicit LLM Hallucinations"
+authors = ["Buyun Liang", "Jinqi Luo", "Liangzu Peng", "Kwan Ho Ryan Chan", "Darshan Thaker", "Kaleab A. Kinfu", "Fengrui Tian", "Hamed Hassani", "René Vidal"]
+license = "MIT"
+author_repo_url = "https://github.com/Buyun-Liang/REALISTA"
 domain = "engineering-sciences"
 subdomain = "machine-learning"
 difficulty = "hard"
 difficulty_explanation = "Requires implementing a latent space adversarial attack framework containing Gumbel-Softmax autoregressive decoding, simplex projection, and Projected Langevin Dynamics (PLD)."
 solution_explanation = "The reference solver loads the model, constructs the latent concept direction dictionary, executes Stage 1 single-concept search to initialize the best candidates, and runs Stage 2 PLD to optimize the edit weights delta while enforcing the simplex constraint and semantic safeguards."
 
+[metadata.runtime_limits]
+# Standard agent execution constraints
+timeout_seconds = 10800
+
+[metadata.tools]
+# Enabled tools inside the task environment
+allowed_tools = ["bash", "python", "git"]
+
+[metadata.network]
+# Allowed network hosts or domains for the container
+allowed_domains = ["*.huggingface.co", "*.openai.com", "arxiv.org", "github.com", "pypi.org"]
+
 [environment]
 docker_image = "realista-env"
 build_timeout_sec = 1800
 cpus = 4
 memory_mb = 16384
+storage_mb = 20480
+gpus = 1
+gpu_types = ["a100", "l4"]
+network_mode = "public"
 
 [agent]
 timeout_sec = 10800
