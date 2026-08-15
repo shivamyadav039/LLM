@@ -1,0 +1,90 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "realista"
+version = "0.1.0"
+description = "REALISTA: Realistic Latent Adversarial Attacks that Elicit LLM Hallucinations (ICML 2026)"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Shivam Yadav"},
+]
+keywords = [
+    "adversarial-attacks",
+    "hallucination",
+    "llm",
+    "latent-space",
+    "projected-langevin-dynamics",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "torch>=2.1.0",
+    "transformers>=4.40.0",
+    "sentence-transformers",
+    "datasets",
+    "numpy>=1.24.0",
+    "tqdm>=4.65.0",
+    "nltk",
+    "openai>=1.0.0",
+    "python-dotenv",
+    "zstandard",
+    "accelerate>=0.26.0",
+]
+
+[project.optional-dependencies]
+# For building dictionaries from scratch (concept selection + embedding)
+build = [
+    "sentence-transformers",
+]
+# For development / testing
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[project.scripts]
+# CLI entry point: `realista --model_type llama3_3b --trial_num 1`
+realista = "run_demo:main"
+
+[project.urls]
+Paper = "https://arxiv.org/abs/2605.12813"
+Repository = "https://github.com/Buyun-Liang/REALISTA"
+
+# ── Tool Configuration ────────────────────────────────────────────
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (we use 100 but some docstrings are wider)
+    "E741",  # ambiguous variable name (we use l, I, etc. in math)
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

@@ -1,0 +1,59 @@
+# ─────────────────────────────────────────────────────────────────
+#  Docker Compose for REALISTA
+# ─────────────────────────────────────────────────────────────────
+#
+#  Quick start:
+#    docker compose up          # default: llama3_3b, 1 trial, 10 iters
+#    docker compose up attack   # same as above
+#
+#  Full attack:
+#    docker compose run attack --model_type llama3_8b --trial_num 10
+#
+#  Interactive shell:
+#    docker compose run attack bash
+#
+#  With persistent model cache (saves re-downloading):
+#    HF_CACHE=~/.cache/huggingface docker compose up
+# ─────────────────────────────────────────────────────────────────
+
+services:
+  attack:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    # ── GPU access ─────────────────────────────────────────────────
+    # Requires: nvidia-container-toolkit installed on the host.
+    # Install: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+    # ── Environment ────────────────────────────────────────────────
+    # Load OpenAI API key from .env file (for LLM judges).
+    # Create .env from .env.example first:
+    #   cp .env.example .env && nano .env
+    env_file:
+      - path: .env
+        required: false
+
+    # ── Volumes ────────────────────────────────────────────────────
+    # Persist HuggingFace model downloads between runs so you don't
+    # re-download 16 GB of weights every time.
+    volumes:
+      - ${HF_CACHE:-~/.cache/huggingface}:/root/.cache/huggingface
+      # Mount results back to host for inspection
+      - ./results:/app/results
+
+    # ── Resource limits ────────────────────────────────────────────
+    # Shared memory size must be large enough for PyTorch DataLoader
+    # workers (default 64MB is too small for LLM inference).
+    shm_size: "8gb"
+
+    # ── Default command ────────────────────────────────────────────
+    # Overridden by `docker compose run attack <args>`
+    command: ["--model_type", "llama3_3b", "--trial_num", "1", "--pld_iterations", "10"]
