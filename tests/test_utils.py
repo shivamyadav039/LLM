@@ -3,9 +3,12 @@ Test suite for REALISTA — Dictionary & Utilities
 ==================================================
 Deterministic tests for dictionary utilities, seed fixing, and packaging.
 """
-import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import sys
+sys.path.insert(0, "/workspace/submission")
+sys.path.insert(1, os.path.join(os.path.dirname(__file__), ".."))
+
+
 
 import pytest
 import inspect

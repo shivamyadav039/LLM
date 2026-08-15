@@ -35,3 +35,7 @@ results_*.json
 # Data (download separately)
 data/latent_dicts/
 data/rephrasing_prompts/
+
+# Local logs
+logs/
+

@@ -3,9 +3,12 @@ Test suite for REALISTA — QA Utilities
 =======================================
 Deterministic tests for prompt construction and probability formatting.
 """
-import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import sys
+sys.path.insert(0, "/workspace/submission")
+sys.path.insert(1, os.path.join(os.path.dirname(__file__), ".."))
+
+
 
 import pytest
 import torch

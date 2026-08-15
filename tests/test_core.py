@@ -4,9 +4,12 @@ Test suite for REALISTA — Core Algorithm
 Deterministic tests for simplex projection, function signatures,
 and algorithmic correctness.
 """
-import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import sys
+sys.path.insert(0, "/workspace/submission")
+sys.path.insert(1, os.path.join(os.path.dirname(__file__), ".."))
+
+
 
 import pytest
 import torch
