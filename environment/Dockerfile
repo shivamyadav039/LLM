@@ -25,8 +25,8 @@ RUN pip install --no-cache-dir \
 # Pre-download NLTK data (needed for WordNet adjective concept pool extraction)
 RUN python -c "import nltk; nltk.download('wordnet', quiet=True); nltk.download('omw-1.4', quiet=True)"
 
-# Stage environment/paper/ into /workspace/paper/ so the runtime paper mirror is available
-COPY environment/paper/ /workspace/paper/
+# Stage paper into /workspace/paper/ (path is relative to Docker build context = environment/)
+COPY paper/ /workspace/paper/
 
 # Set up working directory inside the container (standard SWE/Harbor workspaces mount here)
 WORKDIR /workspace
