@@ -1,22 +1,15 @@
-# ── Base: Python 3.11 slim ────────────────────────────────────────
-# Using the official slim Python image for fast, reliable builds on Modal/Harbor.
-# GPU drivers are injected at runtime by the orchestrator (Modal, Harbor, etc.).
-FROM python:3.11-slim
+# ── Base: NVIDIA CUDA 12.4 + Python 3.11 ─────────────────────────
+FROM pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime
 
 # Don't buffer Python stdout/stderr
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
-# Install basic OS utilities
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends git wget curl && \
-    rm -rf /var/lib/apt/lists/*
+# Install basic development utilities
+RUN apt-get update && apt-get install -y git wget curl && rm -rf /var/lib/apt/lists/*
 
-# Install PyTorch CPU (sufficient for verifier tests; GPU is injected at runtime)
-# and all REALISTA dependencies pinned with ==
+# Install python dependencies required by REALISTA (pinned with == for integrity)
 RUN pip install --no-cache-dir \
-    torch==2.4.0 --index-url https://download.pytorch.org/whl/cpu && \
-    pip install --no-cache-dir \
     transformers==4.43.3 \
     sentence-transformers==3.0.1 \
     datasets==2.20.0 \
@@ -33,5 +26,8 @@ RUN pip install --no-cache-dir \
 # Pre-download NLTK data (needed for WordNet adjective concept pool extraction)
 RUN python -c "import nltk; nltk.download('wordnet', quiet=True); nltk.download('omw-1.4', quiet=True)"
 
-# Set up working directory
+# Stage environment/paper/ into /workspace/paper/
+COPY environment/paper/ /workspace/paper/
+
+# Set up working directory inside the container (standard SWE/Harbor workspaces mount here)
 WORKDIR /workspace
